@@ -11,26 +11,33 @@
       background: #f0f0f0;
       height: 100%;
       width: 100%;
-    }
-
-    body.fixed {
-      overflow: hidden; /* žádné scrollování u prvního obrázku */
+      overflow: hidden;
     }
 
     body.scrollable {
-      overflow-y: auto; /* povolíme scroll pro druhý obrázek */
+      overflow: auto; /* povolí scrollování všemi směry */
     }
 
     #mainImage {
-      width: 100vw;     /* obrázek vyplní šířku obrazovky */
-      height: 100vh;    /* obrázek vyplní výšku obrazovky */
-      object-fit: cover;
       display: block;
+      width: 100vw;
+      height: 100vh;
+      object-fit: cover;
+      max-width: none; /* důležité pro horizontální scroll */
+      max-height: none;
     }
 
     body.scrollable #mainImage {
-      height: auto;     /* umožní obrázku scrollovat, když je vysoký */
+      width: auto;      /* umožní obrázku přesahovat obrazovku */
+      height: auto;
       object-fit: unset;
+    }
+
+    @media (max-width: 768px) {
+      body.scrollable #mainImage {
+        width: auto;
+        height: auto;
+      }
     }
   </style>
 
@@ -40,18 +47,21 @@
 
   <img src="RB.jpg" usemap="#mapa" id="mainImage">
 
-
+  <!-- Příklad jedné klikací oblasti -->
+  <map name="mapa">
+    <area shape="rect" coords="100,100,300,200" href="#" alt="Přepnout" title="Přepnout" onclick="changeImage('RB2.jpg'); return false;">
+  </map>
 
   <script>
     function changeImage(newSrc) {
       const img = document.getElementById("mainImage");
       img.src = newSrc;
 
-      // umožní scrollování jen pro druhý obrázek
+      // povolíme scrollování
       document.body.classList.remove("fixed");
       document.body.classList.add("scrollable");
 
-      // odstraníme mapu, aby nevadila
+      // odstraníme mapu (už nebude potřeba)
       img.removeAttribute("usemap");
     }
 
@@ -62,6 +72,3 @@
 
 </body>
 </html>
-
-
-
