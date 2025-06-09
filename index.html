@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>RB</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: #f0f0f0;
+      height: 100%;
+      width: 100%;
+    }
+
+    body.fixed {
+      overflow: hidden; /* žádné scrollování u prvního obrázku */
+    }
+
+    body.scrollable {
+      overflow-y: auto; /* povolíme scroll pro druhý obrázek */
+    }
+
+    #mainImage {
+      width: 100vw;     /* obrázek vyplní šířku obrazovky */
+      height: 100vh;    /* obrázek vyplní výšku obrazovky */
+      object-fit: cover;
+      display: block;
+    }
+
+    body.scrollable #mainImage {
+      height: auto;     /* umožní obrázku scrollovat, když je vysoký */
+      object-fit: unset;
+    }
+  </style>
+
+  <script src="https://unpkg.com/image-map-resizer@1.0.10/js/imageMapResizer.min.js"></script>
+</head>
+<body class="fixed">
+
+  <img src="RB.jpg" usemap="#mapa" id="mainImage">
+
+
+
+  <script>
+    function changeImage(newSrc) {
+      const img = document.getElementById("mainImage");
+      img.src = newSrc;
+
+      // umožní scrollování jen pro druhý obrázek
+      document.body.classList.remove("fixed");
+      document.body.classList.add("scrollable");
+
+      // odstraníme mapu, aby nevadila
+      img.removeAttribute("usemap");
+    }
+
+    window.onload = function () {
+      imageMapResize();
+    };
+  </script>
+
+</body>
+</html>
+
+
+
